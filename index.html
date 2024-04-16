@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion Website</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            background-image: url(Pictures/validationfashion.jpg);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            font-size: 16px;
+        }
+
+        .container {
+            width: 300px;
+            padding: 30px 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 24px;
+            text-transform: uppercase;
+        }
+
+        .form-control {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        input[type="email"],
+        input[type="password"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #f5f5f5;
+            color: #333;
+            outline: none;
+        }
+
+        input[type="email"]::placeholder,
+        input[type="password"]::placeholder {
+            color: #bbb;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #8a3ab9;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #6d2a8a;
+        }
+
+        .dark-mode {
+            background-color: #1f1f1f;
+            color: #fff;
+        }
+
+        .dark-mode .container {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .dark-mode h2 {
+            color: #fff;
+        }
+
+        .dark-mode label,
+        .dark-mode input[type="email"],
+        .dark-mode input[type="password"],
+        .dark-mode input[type="email"]::placeholder,
+        .dark-mode input[type="password"]::placeholder {
+            color: #bbb;
+        }
+
+        .dark-mode button {
+            background-color: #8a3ab9;
+        }
+
+        .dark-mode button:hover {
+            background-color: #6d2a8a;
+        }
+
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input { 
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+
+        /* Size toggles */
+        .size-toggle {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .size-toggle button {
+            background-color: #8a3ab9;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            padding: 5px 10px;
+            transition: background-color 0.3s;
+            width: 43%;
+        }
+
+        .size-toggle button:hover {
+            background-color: #6d2a8a;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Dressed to kill</h2>
+        <label class="switch">
+            <input type="checkbox" id="darkModeToggle">
+            <span class="slider round"></span>
+        </label>
+        <form id="validationForm">
+            <div class="form-control">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-control">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+        <div class="size-toggle">
+            <button id="increaseSize">Increase Size</button>
+            <button id="decreaseSize">Decrease Size</button>
+        </div>
+    </div>
+    <script>
+        document.getElementById('validationForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            var email = document.getElementById('email').value;
+            var password = document.getElementById('password').value;
+
+            if (!isValidEmail(email)) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+
+            if (password.length < 6) {
+                alert('Password must be at least 6 characters long.');
+                return;
+            }
+
+            alert('Form submitted successfully!');
+        });
+
+        function isValidEmail(email) {
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        document.getElementById('darkModeToggle').addEventListener('change', function() {
+            var body = document.body;
+            body.classList.toggle('dark-mode');
+        });
+
+        document.getElementById('increaseSize').addEventListener('click', function() {
+            changeFontSize(1);
+        });
+
+        document.getElementById('decreaseSize').addEventListener('click', function() {
+            changeFontSize(-1);
+        });
+
+        function changeFontSize(change) {
+            var currentFontSize = parseFloat(getComputedStyle(document.body).fontSize);
+            var newFontSize = currentFontSize + change;
+            document.body.style.fontSize = newFontSize + 'px';
+        }
+    </script>
+</body>
+</html>
